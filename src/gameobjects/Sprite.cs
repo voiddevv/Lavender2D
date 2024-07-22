@@ -10,6 +10,6 @@ public class Sprite : GameObject{
     }
     public override void Draw(){
         if(!texture.Equals(null))
-            Raylib.DrawTexturePro(texture,new Rectangle(0,0,texture.Width,texture.Height),new Rectangle(position,texture.Width,texture.Height),new Vector2(texture.Width*0.5f,texture.Height*0.5f),rotation,Color.White);
+            Raylib.DrawTexturePro(texture,new Rectangle(0,0,texture.Width,texture.Height),new Rectangle(position,texture.Width*scale.X,texture.Height*scale.Y),new Vector2(texture.Width*0.5f,texture.Height*0.5f)*scale,rotation,Color.White);
     }
 }

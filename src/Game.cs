@@ -1,30 +1,35 @@
 using Raylib_cs;
 
-public class Game{
-    public int maxFps = 0;
+public static class Game{
+    public static int maxFps = 0;
 
 
 
-    private State currentState;
-    public Game(State firstState,int framerate = 60){
+    private static State currentState;
+    public static void Init(State firstState,int framerate = 60){
         maxFps = framerate;
 
         SwitchState(firstState);
 
     }
-    public void SwitchState(State state){
+    public static void SwitchState(State state){
         if(state.Equals(null)){
             throw new Exception("state not valid");
         }
         currentState = state;
         currentState.Create();
     }
-    public void Update(float delta){
+    public static void Update(float delta){
         if(!currentState.Equals(null)){
             currentState.Update(delta);
+            foreach (var obj in currentState.objects)
+            {
+                obj.Update(delta);
+            }
         }
+
     }
-    public void Draw(){
+    public static void Draw(){
             currentState.Draw();
             foreach (GameObject obj in currentState.objects)
             {
