@@ -6,7 +6,7 @@ public class Program{
     static Process proc = Process.GetCurrentProcess();
     public static int Main(){
         Raylib.InitWindow(1280,720,"Friday Night Funkin'");
-        int fps = int.Parse(File.ReadAllText("assets/fps.txt"));
+        int fps = int.Parse(File.ReadAllText($"{PathUtils.GetElfPath()}assets/fps.txt"));
         Game.Init(new Test(),fps);
         Raylib.SetTargetFPS(Game.maxFps);
          
