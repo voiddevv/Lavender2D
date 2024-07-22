@@ -21,7 +21,7 @@ public class Test : State{
         inst = new();
 
         Raylib.SetExitKey(KeyboardKey.Null);
-        Image img = Raylib.LoadImage(PathUtils.GetElfPath() +"assets/images/scorched.png");
+        Image img = Raylib.LoadImage(Paths.GetPath("assets/images/scorched.png"));
         tex = Raylib.LoadTextureFromImage(img);
 
         // vox.stream = Raylib.LoadMusicStream("assets/songs/voices.ogg");
@@ -30,7 +30,7 @@ public class Test : State{
         // vox.Play(300);
         // Add(vox);
         // Add(inst);
-        XDocument doc = XDocument.Load(PathUtils.GetElfPath() + "assets/images/scorched.xml");
+        XDocument doc = XDocument.Load(Paths.GetPath("assets/images/scorched.xml"));
         foreach (var item in doc.Root.Elements())
         {
             String itemName = item.Name.ToString();
@@ -44,7 +44,6 @@ public class Test : State{
             }
             
         }
-        Console.WriteLine(PathUtils.GetElfPath());
     }
 
     float rot = 0.0f;
