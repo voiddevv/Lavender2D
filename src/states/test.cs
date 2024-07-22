@@ -4,6 +4,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
 using System.Xml.XPath;
+using Microsoft.VisualBasic;
 using Raylib_cs;
 
 public class Test : State{
@@ -14,12 +15,13 @@ public class Test : State{
     AudioStreamPlayer inst;
     public override void Create()
     {
+        Raylib.SetWindowState(ConfigFlags.ResizableWindow);
         Raylib.SetMasterVolume(0.4f);
         vox = new();
         inst = new();
 
         Raylib.SetExitKey(KeyboardKey.Null);
-        Image img = Raylib.LoadImage("assets/images/scorched.png");
+        Image img = Raylib.LoadImage(Path.GetFullPath("assets/images/scorched.png"));
         tex = Raylib.LoadTextureFromImage(img);
 
         // vox.stream = Raylib.LoadMusicStream("assets/songs/voices.ogg");
@@ -28,7 +30,7 @@ public class Test : State{
         // vox.Play(300);
         // Add(vox);
         // Add(inst);
-        XDocument doc = XDocument.Load("assets/images/scorched.xml");
+        XDocument doc = XDocument.Load(Path.GetFullPath("assets/images/scorched.xml"));
         foreach (var item in doc.Root.Elements())
         {
             String itemName = item.Name.ToString();

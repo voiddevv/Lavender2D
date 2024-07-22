@@ -5,7 +5,6 @@ public static class Game{
     private static State currentState;
     public static void Init(State firstState,int framerate = 60){
         maxFps = framerate;
-
         SwitchState(firstState);
 
     }
