@@ -2,9 +2,6 @@ using Raylib_cs;
 
 public static class Game{
     public static int maxFps = 0;
-
-
-
     private static State currentState;
     public static void Init(State firstState,int framerate = 60){
         maxFps = framerate;

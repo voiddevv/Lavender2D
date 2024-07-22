@@ -1,12 +1,17 @@
 using System.Numerics;
+using System.Reflection.Metadata;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Schema;
+using System.Xml.XPath;
 using Raylib_cs;
 
 public class Test : State{
     Texture2D tex;
-    Sprite s = new();
+    
+    List<Rectangle> texRegions = [];
     AudioStreamPlayer vox;
     AudioStreamPlayer inst;
-
     public override void Create()
     {
         Raylib.SetMasterVolume(0.4f);
@@ -14,38 +19,58 @@ public class Test : State{
         inst = new();
 
         Raylib.SetExitKey(KeyboardKey.Null);
-        Image img = Raylib.GenImageCellular(1280*2,720*2,32);
+        Image img = Raylib.LoadImage("assets/images/scorched.png");
         tex = Raylib.LoadTextureFromImage(img);
-        Raylib.UnloadImage(img);
-        s.texture = tex;
-        s.scale = new(0.5f,0.5f);
-        s.position = new(640,360);  
-        objects.Add(s);
-        vox.stream = Raylib.LoadMusicStream("assets/songs/voices.ogg");
-        inst.stream = Raylib.LoadMusicStream("assets/songs/inst.ogg");
 
-        Add(vox);
-        Add(inst);
-        vox.Play(360);
-        inst.Play(360);
-
-
+        // vox.stream = Raylib.LoadMusicStream("assets/songs/voices.ogg");
+        // inst.stream = Raylib.LoadMusicStream("assets/songs/inst.ogg");
+        // inst.Play(300);
+        // vox.Play(300);
+        // Add(vox);
+        // Add(inst);
+        XDocument doc = XDocument.Load("assets/images/scorched.xml");
+        foreach (var item in doc.Root.Elements())
+        {
+            String itemName = item.Name.ToString();
+            if(itemName == "SubTexture"){
+                String name = item.Attribute("name").Value;
+                int x = int.Parse(item.Attribute("x").Value);
+                int y = int.Parse(item.Attribute("y").Value);
+                int width = int.Parse(item.Attribute("width").Value);
+                int height = int.Parse(item.Attribute("height").Value);
+                texRegions.Add(new(x,y,width,height));
+            }
+            
+        }
     }
 
     float rot = 0.0f;
+    int curframe = 0;
+    float time = 0.0f;
     public override void Update(float delta)
     {
         rot += delta*30.0f;
-        s.rotation = rot;
+        
         if(Raylib.IsKeyPressed(KeyboardKey.Escape)){
             Environment.Exit(0);
         }
+        time += delta;
+        if(time > 1.0f/24.0f){
+            curframe ++;
+            time = 0;
+            if(curframe > texRegions.Count){
+                curframe = 0;
+            }
+        }
+        
 
 
     }
     public override void Draw()
     {
-        Raylib.DrawRectanglePro(new Rectangle(640,360,640,360),new Vector2(320,180),rot,Raylib.ColorFromHSV(rot*3.0f,0.7f,0.4f));
-
+        if(curframe > texRegions.Count-1){
+            return;
+        }
+        Raylib.DrawTexturePro(tex,texRegions[curframe],new(640,360,texRegions[curframe].Size),texRegions[curframe].Size/2,0.0f,Color.White);
     }
 }

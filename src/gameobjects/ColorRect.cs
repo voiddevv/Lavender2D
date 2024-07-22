@@ -1,6 +1,5 @@
 using System.Numerics;
 using Raylib_cs;
-
 public class ColorRect : GameObject{
     public Color Color = Color.White;
     public Vector2 Position = Vector2.Zero;

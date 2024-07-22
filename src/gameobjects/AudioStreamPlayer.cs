@@ -3,8 +3,8 @@ using Raylib_cs;
 public class AudioStreamPlayer : GameObject{
     public Music stream;
     public void Play(float time){
-        Raylib.PlayMusicStream(stream);
         Seek(time);
+        Raylib.PlayMusicStream(stream);
     }
     public void Stop(){
         Raylib.StopMusicStream(stream);
