@@ -10,18 +10,14 @@ public class Test : State{
     public override void Create()
     {
         Raylib.SetWindowState(ConfigFlags.ResizableWindow);
-        Raylib.SetMasterVolume(0.4f);
+        Raylib.SetMasterVolume(0.1f);
         vox = new();
         inst = new();
-        Image img = Raylib.LoadImage(Paths.GetPath("assets/images/scorched.png"));
+        Raylib_cs.Image img = Raylib.LoadImage(Paths.GetPath("assets/images/scorched.png"));
         tex = Raylib.LoadTextureFromImage(img);
-
+        Raylib.UnloadImage(img);
         vox.stream = Raylib.LoadMusicStream("assets/songs/voices.ogg");
         inst.stream = Raylib.LoadMusicStream("assets/songs/inst.ogg");
-        Add(vox);
-        Add(inst);
-        inst.Play(90);
-        vox.Play(90);
 
         XDocument doc = XDocument.Load(Paths.GetPath("assets/images/scorched.xml"));
         foreach (var item in doc.Root.Elements())
@@ -37,6 +33,10 @@ public class Test : State{
             }
             
         }
+        Add(vox);
+        Add(inst);
+        inst.Play(280);
+        vox.Play(280);
     }
 
     float rot = 0.0f;

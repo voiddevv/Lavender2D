@@ -1,8 +1,10 @@
 using System.Numerics;
 using Raylib_cs;
-
 public static class Game{
+    
+
     public static int maxFps = 0;
+    public static float TimeScale = 1.0f;
     private static State currentState;
     public static float ContentScale = 1.0f;
     public static Vector2 ContentSize = Vector2.Zero;
@@ -16,15 +18,17 @@ public static class Game{
         ContentSize = new(1280,720);
         SwitchState(firstState);
 
+
     }
     public static void SwitchState(State state){
         if(state.Equals(null)){
-            throw new Exception("state not valid");
+            throw new System.Exception("state not valid");
         }
         currentState = state;
         currentState.Create();
     }
     public static void Update(float delta){
+        delta *= TimeScale;
         ContentScale = Math.Min((float)Raylib.GetScreenHeight()/ContentSize.Y,(float)Raylib.GetScreenWidth()/ContentSize.X);
         RenderRec.Width = (renderTexture.Texture.Width * ContentScale);
         RenderRec.Height = (renderTexture.Texture.Height * ContentScale);
